@@ -1,57 +1,55 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
-import classes from "./AvailableMeals.module.css";
-import Card from "../UI/Card";
-import MealItem from "./MealItem/MealItem";
+import classes from './AvailableMeals.module.css'
+import Card from '../UI/Card'
+import MealItem from './MealItem/MealItem'
 
 const AvailableMeals = (props) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
-  const [meals, setMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+  const [meals, setMeals] = useState([])
   useEffect(() => {
     const fetchMeals = async () => {
-      const response = await fetch(
-        "https://food-order-app-c02a2-default-rtdb.asia-southeast1.firebasedatabase.app//meals.json"
-      );
+      const response = await fetch('http://localhost:3001/')
 
       if (!response.ok) {
-        setIsLoading(false);
-        setHasError(true);
+        setIsLoading(false)
+        setHasError(true)
       }
 
-      const responseData = await response.json();
+      const responseData = await response.json()
 
-      const loadedMeals = [];
+      const loadedMeals = []
 
       for (const key in responseData) {
         loadedMeals.push({
           id: key,
           name: responseData[key].name,
           description: responseData[key].description,
-          price: responseData[key].price,
-        });
+          price: responseData[key].price
+        })
       }
-      setMeals(loadedMeals);
-      setIsLoading(false);
-    };
+      setMeals(loadedMeals)
+      setIsLoading(false)
+    }
     try {
-      fetchMeals();
+      fetchMeals()
     } catch (error) {}
-  }, []);
+  }, [])
 
   if (isLoading) {
     return (
       <section>
         <p>....loading</p>
       </section>
-    );
+    )
   }
   if (hasError) {
     return (
       <section>
         <p>....Something went wrong</p>
       </section>
-    );
+    )
   }
 
   const mealsList = meals.map((meal) => (
@@ -63,13 +61,13 @@ const AvailableMeals = (props) => {
       description={meal.description}
       price={meal.price}
     ></MealItem>
-  ));
+  ))
   return (
     <section className={classes.meals}>
       <Card>
         <ul>{mealsList}</ul>
       </Card>
     </section>
-  );
-};
-export default AvailableMeals;
+  )
+}
+export default AvailableMeals
