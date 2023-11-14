@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 
+
 import classes from './AvailableMeals.module.css'
 import Card from '../UI/Card'
 import MealItem from './MealItem/MealItem'
@@ -10,7 +11,7 @@ const AvailableMeals = (props) => {
   const [meals, setMeals] = useState([])
   useEffect(() => {
     const fetchMeals = async () => {
-      const response = await fetch('http://localhost:3001/')
+      const response = await fetch('https://food-order-backend-251k.onrender.com')
 
       if (!response.ok) {
         setIsLoading(false)
@@ -18,17 +19,17 @@ const AvailableMeals = (props) => {
       }
 
       const responseData = await response.json()
-
       const loadedMeals = []
-
+      
       for (const key in responseData) {
         loadedMeals.push({
-          id: key,
+          id: responseData[key]._id,
           name: responseData[key].name,
           description: responseData[key].description,
           price: responseData[key].price
         })
       }
+      console.log(loadedMeals);
       setMeals(loadedMeals)
       setIsLoading(false)
     }
