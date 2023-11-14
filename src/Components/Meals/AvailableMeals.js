@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
-
 import classes from './AvailableMeals.module.css'
 import Card from '../UI/Card'
 import MealItem from './MealItem/MealItem'
+import { ColorRing } from 'react-loader-spinner'
 
 const AvailableMeals = (props) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -20,7 +20,7 @@ const AvailableMeals = (props) => {
 
       const responseData = await response.json()
       const loadedMeals = []
-      
+
       for (const key in responseData) {
         loadedMeals.push({
           id: responseData[key]._id,
@@ -29,7 +29,7 @@ const AvailableMeals = (props) => {
           price: responseData[key].price
         })
       }
-      console.log(loadedMeals);
+      console.log(loadedMeals)
       setMeals(loadedMeals)
       setIsLoading(false)
     }
@@ -40,8 +40,16 @@ const AvailableMeals = (props) => {
 
   if (isLoading) {
     return (
-      <section>
-        <p>....loading</p>
+      <section style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '150px'}}>
+        <ColorRing
+          visible={true}
+          height='80'
+          width='80'
+          ariaLabel='blocks-loading'
+          wrapperStyle={{}}
+          wrapperClass='blocks-wrapper'
+          colors={['green', 'green', 'green', 'green', 'green']}
+        />
       </section>
     )
   }
